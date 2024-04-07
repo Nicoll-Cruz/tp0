@@ -17,24 +17,46 @@ int main(void)
 	logger = iniciar_logger();
 
 	// Usando el logger creado previamente
-	// Escribi: "Hola! Soy un log"
 	logger = log_create(".//tp0.log", "parte2", true, LOG_LEVEL_INFO);
-	log_info(logger, "Hola! Soy un log");
-	log_destroy(logger);
-
+	// Escribi: "Hola! Soy un log"
+	
 	/* ---------------- ARCHIVOS DE CONFIGURACION ---------------- */
 
 	config = iniciar_config();
-
+	config = config_create(".//cliente.config");
+	if (config == NULL) {
+		// ¡No se pudo crear el config!
+		// Terminemos el programa
+		exit(0);
+	}
 	// Usando el config creado previamente, leemos los valores del config y los 
 	// dejamos en las variables 'ip', 'puerto' y 'valor'
+	ip = config_get_string_value(config,"IP");
+	puerto = config_get_string_value(config, "PUERTO");
+	valor = config_get_string_value(config, "CLAVE");
 
 	// Loggeamos el valor de config
-
+	log_info(logger, valor);
 
 	/* ---------------- LEER DE CONSOLA ---------------- */
 
 	leer_consola(logger);
+	/*char *linea;
+
+    while (1) {
+        linea = readline(">");
+
+        if (!linea) {
+            break;
+        }
+        printf("%s\n", linea);
+        free(linea);
+    }*/
+
+
+
+	log_destroy(logger);
+	config_destroy(config);
 
 	/*---------------------------------------------------PARTE 3-------------------------------------------------------------*/
 
